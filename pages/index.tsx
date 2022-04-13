@@ -64,7 +64,7 @@ export default function Launch() {
       </TopHalf>
       <BottomHalf>
         <H3>Explore success rates of medications for various diseases</H3>
-        <P>Share your story and hear about others' experiences with medications</P>
+        <P>Share your story and hear about others&rsquo; experiences with medications</P>
         <Continue onClick={onContinue}>
           <ContinueText>Continue &gt;</ContinueText>
         </Continue>
