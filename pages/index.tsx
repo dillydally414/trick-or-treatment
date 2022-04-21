@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logo from '../public/logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Color from '../styles/colors';
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const Container = styled.div`
 
 const TopHalf = styled.div`
   align-items: center;
-  background-color: #F6A325;
+  background-color: ${Color.ORANGE};
   display: flex;
   height: 60%;
   justify-content: center;

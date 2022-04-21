@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Color from './colors';
 
 export const LoginContainer = styled.div`
   height: 100%;
@@ -22,7 +23,7 @@ const Login = styled.button`
 
 export const CurrentLogin = styled(Login)`
   font-weight: bold;
-  text-decoration: underline #F6A325;
+  text-decoration: underline ${Color.ORANGE};
 `;
 
 export const OtherLogin = styled(Login)`
@@ -58,15 +59,15 @@ export const RightLabel = styled(Label)`
 `;
 
 export const Input = styled.input`
-  background-color: #E5E5E5;
-  border: 0.1rem solid #F6A325;
+  background-color: ${Color.LIGHT_GRAY};
+  border: 0.1rem solid ${Color.ORANGE};
   border-radius: 0.5rem;
   font-size: 1.5rem;
   padding: 2.5%;
 `;
 
 export const Submit = styled(Input)`
-  background-color: #F6A325;
+  background-color: ${Color.ORANGE};
   color: white;
   cursor: pointer;
 `;

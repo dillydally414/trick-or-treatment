@@ -7,6 +7,7 @@ import Disease from '../public/disease.svg';
 import Treatment from '../public/treatment.svg';
 import Add from '../public/add.svg';
 import Profile from '../public/profile.svg';
+import Color from '../styles/colors';
 
 const Container = styled.div`
   align-content: center;
@@ -19,7 +20,7 @@ const Container = styled.div`
 
 const Left = styled.div`
   align-items: center;
-  background-color: #F6A325;
+  background-color: ${Color.ORANGE};
   cursor: pointer;
   display: flex;
   flex-direction: row;
