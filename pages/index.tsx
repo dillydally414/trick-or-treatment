@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../public/vercel.svg';
+import logo from '../public/logo.png';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 const Container = styled.div`
@@ -16,6 +17,10 @@ const TopHalf = styled.div`
   display: flex;
   height: 60%;
   justify-content: center;
+
+  span {
+    height: inherit !important;
+  }
 `;
 
 const BottomHalf = styled.div`
@@ -60,7 +65,7 @@ export default function Launch() {
   return (
     <Container>
       <TopHalf>
-        <Logo />
+        <Image src={logo} layout='fill' objectFit='contain' />
       </TopHalf>
       <BottomHalf>
         <H3>Explore success rates of medications for various diseases</H3>
