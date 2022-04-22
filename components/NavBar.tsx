@@ -11,6 +11,7 @@ import Color from '../styles/colors';
 
 const Container = styled.div`
   align-content: center;
+  background-color: ${Color.WHITE};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: row;
@@ -25,6 +26,7 @@ const Left = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 5%;
   width: 15%;
 
   span {
