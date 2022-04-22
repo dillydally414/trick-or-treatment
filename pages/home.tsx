@@ -8,21 +8,6 @@ import Disease from '../public/disease.svg';
 import Treatment from '../public/treatment.svg';
 import Add from '../public/add.svg';
 
-// TODO: add arrow icon in bottom right
-const MedInfo = styled.div`
-  height: 70%;
-  width: 50%;
-  background-color: ${Color.WHITE};
-  margin-top: 4%;
-  margin-left: 7.5%;
-  border-radius: 2%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
 const Container = styled.div`
   background-color: ${Color.ORANGE};
   display: flex;

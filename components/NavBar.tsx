@@ -26,7 +26,7 @@ const Left = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 5%;
+  padding: 0 5%;
   width: 15%;
 
   span {
