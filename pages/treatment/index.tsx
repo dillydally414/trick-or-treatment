@@ -17,7 +17,7 @@ export default function Treatment() {
           <SearchInfo>
             <SearchHeader>Search Treatments</SearchHeader>
             {/* TODO: Make the search bar work :-) */}
-            <SearchBar placeholder="Search diseases" />
+            <SearchBar placeholder="Search treatments" />
           </SearchInfo>
           <SearchResults>
             {results.map((treatment) => {
