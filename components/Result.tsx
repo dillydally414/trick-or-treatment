@@ -7,8 +7,7 @@ import { ArrowForwardSharp } from '@mui/icons-material';
 const ResultContainer = styled.div`
   align-items: center;
   background-color: white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-color: ${Color.BLACK};
+  border: 0.1rem solid ${Color.BLACK};
   border-radius: 0.5rem;
   cursor: ${props => props.title ? 'pointer' : 'default'};
   display: flex;

@@ -5,25 +5,7 @@ import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
 import Result from '../../components/Result';
 import { TreatmentType } from '../../types';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 0;
-`;
-
-const PageContainer = styled.div`
-  height: 100%;
-  background-color: ${Color.ORANGE};
-`;
-
-const BodyContainer = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  padding: 5% 10%;
-`;
+import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
 
 const TopRow = styled.div`
   display: flex;
