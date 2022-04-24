@@ -5,6 +5,7 @@ import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
 import Result from '../../components/Result';
 import { ArrowForwardSharp } from '@mui/icons-material';
+import { BrandName, DiseaseType } from '../../types';
 
 const Container = styled.div`
   display: flex;
@@ -75,17 +76,6 @@ const RelevantDiseases = styled.div`
   width: 50%;
 `;
 
-type BrandName = {
-  name: string,
-  id: number,
-  price: number
-}
-
-type Disease = {
-  name: string,
-  id: number
-}
-
 export default function Treatment() {
   const router = useRouter();
 
@@ -96,7 +86,7 @@ export default function Treatment() {
   const [sideEffects, setSideEffects] = useState(['No known side effects']);
   const [method, setMethod] = useState('Method');
   const [brandNames, setBrandNames] = useState<BrandName[]>([{ name: "Aleve", id: 1, price: 10.00 }]);
-  const [relevantDiseases, setRelevantDiseases] = useState<Disease[]>([{ name: "Migraines", id: 1 }]);
+  const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([{ name: "Migraines", id: 1 }]);
 
 
   useEffect(() => {

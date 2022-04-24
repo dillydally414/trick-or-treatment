@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
 import Result from '../../components/Result';
+import { TreatmentType } from '../../types';
 
 const Container = styled.div`
   display: flex;
@@ -53,11 +54,6 @@ const Description = styled.p`
   text-align: right;
 `;
 
-type MedicationBar = {
-  name: string,
-  id: number
-}
-
 export default function Disease() {
   const router = useRouter();
 
@@ -67,7 +63,7 @@ export default function Disease() {
   const [name, setName] = useState(`Disease`);
   const [description, setDescription] = useState('No description provided');
   const [diseaseClass, setDiseaseClass] = useState('Disease Class');
-  const [medications, setMedications] = useState<MedicationBar[]>([{ name: "Aspirin", id: 1 }]);
+  const [medications, setMedications] = useState<TreatmentType[]>([{ name: "Aspirin", id: 1 }]);
 
   useEffect(() => {
     const loadInfo = async () => {
