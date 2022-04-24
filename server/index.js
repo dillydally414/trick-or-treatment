@@ -35,7 +35,19 @@ app.post('/api/getDisease', (req, res) => {
     const sqlGetDisease = "SELECT * FROM disease WHERE name LIKE ? OR description LIKE ?"
     db.query(sqlGetDisease, [queryField, queryField], (err, result) => {
         res.send(result)
-        console.log(err)
+    })
+
+})
+
+// Get the records where name matches some variable (search parameter)
+app.post('/api/getTreatment', (req, res) => {
+
+    const searchForTreatment = req.body.params.searchForTreatment
+    const queryField = '%' + searchForTreatment + '%'
+
+    const sqlGetTreatment = "SELECT * FROM medication WHERE name LIKE ?"
+    db.query(sqlGetTreatment, [queryField], (err, result) => {
+        res.send(result)
     })
 
 })

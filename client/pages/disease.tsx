@@ -39,7 +39,6 @@ export default function Disease() {
       params: {
         searchForDisease: diseaseSearchField
       }}).then((response) => {
-        console.log(response)
         setDiseaseResultList(response.data)
       })
   }
