@@ -7,7 +7,7 @@ import { SearchInfo, SearchHeader, SearchResults } from '../../styles/SearchStyl
 import { TreatmentType } from '../../types';
 
 export default function Treatment() {
-  const [results, setResults] = useState<TreatmentType[]>([{ id: 1, name: "Aspirin" }]);
+  const [results, setResults] = useState<TreatmentType[]>([]);
 
   return (
     <Container>
@@ -16,8 +16,7 @@ export default function Treatment() {
         <BodyContainer>
           <SearchInfo>
             <SearchHeader>Search Treatments</SearchHeader>
-            {/* TODO: Make the search bar work :-) */}
-            <SearchBar placeholder="Search treatments" />
+            <SearchBar placeholder="Search treatments" setSearchResults={setResults} />
           </SearchInfo>
           <SearchResults>
             {results.map((treatment) => {

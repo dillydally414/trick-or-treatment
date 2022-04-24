@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Color from '../styles/colors';
 import { Search } from '@mui/icons-material';
 import Font from '../styles/fonts';
+import Axios from 'axios';
 
 const SearchContainer = styled.form`
   background-color: ${Color.LIGHT_GRAY};
@@ -44,20 +45,47 @@ const SearchIcon = styled(Search)`
 
 interface SearchBarProps {
   placeholder: string;
+  setSearchResults: Function;
 }
 
 export default function SearchBar({
-  placeholder
+  placeholder,
+  setSearchResults
 }: SearchBarProps) {
+
+  const [searchField, setSearchField] = useState('')
+
+  const submitSearch = () => {
+    if (placeholder === "Search diseases") {
+      Axios.post("http://localhost:3001/api/getDisease", {
+        params: {
+          searchForDisease: searchField
+        }}).then((response) => {
+          setSearchResults(response.data)
+        })
+    }
+    else if (placeholder === "Search treatments") {
+      Axios.post("http://localhost:3001/api/getTreatment", {
+        params: {
+          searchForTreatment: searchField
+        }}).then((response) => {
+          setSearchResults(response.data)
+        })
+    }
+  }
+
   return (
-    <SearchContainer action="/" method="get">
+    <SearchContainer action="/" method="get" onSubmit={(e) => {e.preventDefault()}}>
       <TextInput
         type="text"
         id="header-search"
         placeholder={placeholder}
         name="s"
+        onChange={(e) => {
+          setSearchField(e.target.value)
+        }}
       />
-      <SubmitButton type="submit">
+      <SubmitButton type="submit" onClick={submitSearch}>
         <SearchIcon />
       </SubmitButton>
     </SearchContainer>
