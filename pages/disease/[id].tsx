@@ -1,42 +1,12 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
-import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
 import Result from '../../components/Result';
 import { TreatmentType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
+import { BottomHalf, Information, Subtitle, Title, LeftCol, TopRow } from '../../styles/DetailsStyles';
 
-const TopRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const LeftCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-`;
-
-const DiseaseTitle = styled.h1`
-  color: ${Color.BLACK};
-  font-size: 3rem;
-`;
-
-const DiseaseClass = styled.p`
-  color: ${Color.DARK_GRAY};
-  font-size: 1rem;
-`;
-
-const Description = styled.p`
-  color: ${Color.BLACK};
-  font-size: 1.25rem;
-  text-align: right;
-`;
-
-export default function Disease() {
+export default function DiseaseDetails() {
   const router = useRouter();
 
   const { id } = router.query;
@@ -65,12 +35,12 @@ export default function Disease() {
           <BodyContainer>
             <TopRow>
               <LeftCol>
-                <DiseaseTitle>{name}</DiseaseTitle>
-                <DiseaseClass>{diseaseClass}</DiseaseClass>
+                <Title>{name}</Title>
+                <Subtitle>{diseaseClass}</Subtitle>
               </LeftCol>
-              <Description>{description}</Description>
+              <Information>{description}</Information>
             </TopRow>
-            <DiseaseTitle>Treatment Options</DiseaseTitle>
+            <Title>Treatment Options</Title>
             {medications.map((medication) => {
               return <Result key={medication.id}
                 title={medication.name}

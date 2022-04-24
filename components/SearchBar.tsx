@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Color from '../styles/colors';
 import { Search } from '@mui/icons-material';
+import Font from '../styles/fonts';
 
 const SearchContainer = styled.form`
   background-color: ${Color.LIGHT_GRAY};
@@ -18,6 +19,7 @@ const TextInput = styled.input`
   background-color: transparent;
   border-color: transparent;
   color: ${Color.BLACK};
+  font-family: ${Font.SECONDARY};
   font-size: 1.5rem;
   width: 100%;
 

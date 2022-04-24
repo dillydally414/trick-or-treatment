@@ -1,48 +1,12 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
-import Result from '../../components/Result';
+import Result, { LearnMore } from '../../components/Result';
 import { ArrowForwardSharp } from '@mui/icons-material';
 import { BrandName, DiseaseType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
-
-const TopRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const LeftCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-`;
-
-const DiseaseTitle = styled.h1`
-  color: ${Color.BLACK};
-  font-size: 3rem;
-`;
-
-const DiseaseClass = styled.p`
-  color: ${Color.DARK_GRAY};
-  font-size: 1rem;
-`;
-
-const Description = styled.p`
-  color: ${Color.BLACK};
-  font-size: 1.25rem;
-  text-align: right;
-`;
-
-const BottomHalf = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
+import { TopRow, LeftCol, Title, Subtitle, Information, BottomHalf } from '../../styles/DetailsStyles';
 
 const BrandNames = styled.div`
   align-items: center;
@@ -58,7 +22,7 @@ const RelevantDiseases = styled.div`
   width: 50%;
 `;
 
-export default function Treatment() {
+export default function TreatmentDetails() {
   const router = useRouter();
 
   const { id } = router.query;
@@ -89,23 +53,23 @@ export default function Treatment() {
           <BodyContainer>
             <TopRow>
               <LeftCol>
-                <DiseaseTitle>{name}</DiseaseTitle>
-                <DiseaseClass>{method}</DiseaseClass>
+                <Title>{name}</Title>
+                <Subtitle>{method}</Subtitle>
               </LeftCol>
-              <Description>{sideEffects.join('\n')}</Description>
+              <Information>{sideEffects.join('\n')}</Information>
             </TopRow>
             <BottomHalf>
               <BrandNames>
-                <DiseaseTitle>Brand Names</DiseaseTitle>
+                <Title>Brand Names</Title>
                 {brandNames.map((brandName) => {
                   return <Result key={brandName.id}
                     title={brandName.name}
-                    rightSide={<p style={{ margin: 0 }}>${brandName.price}</p>}
+                    rightSide={<LearnMore>${brandName.price}</LearnMore>}
                   />
                 })}
               </BrandNames>
               <RelevantDiseases>
-                <DiseaseTitle>Relevant Diseases</DiseaseTitle>
+                <Title>Relevant Diseases</Title>
                 {relevantDiseases.map((disease) => {
                   return <Result key={disease.id}
                     title={disease.name}

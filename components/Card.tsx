@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import Font from '../styles/fonts';
 
 const CardContainer = styled.div`
   align-items: ${props => props.title ? 'center' : 'flex-start'};
@@ -34,12 +35,14 @@ const IconContainer = styled.div`
 
 const Title = styled.h1`
   color: black;
+  font-family: ${Font.MAIN};
   font-size: ${props => props.title ? '2rem' : '1rem'};
   margin: 2% 0;
 `;
 
 const Description = styled.p`
   color: black;
+  font-family: ${Font.SECONDARY};
   font-size: ${props => props.title ? '1rem' : '0.75rem'};
   justify-content: center;
   margin: 0;

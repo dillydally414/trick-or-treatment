@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Color from './colors';
+import Font from './fonts';
 
 export const LoginContainer = styled.div`
   height: 100%;
@@ -17,12 +18,13 @@ export const ChooseLogin = styled.div`
 const Login = styled.button`
   background-color: transparent;
   border-color: transparent;
+  font-family: ${Font.MAIN};
+  font-weight: 900;
   font-size: 2rem;
   margin: 0 5%;
 `;
 
 export const CurrentLogin = styled(Login)`
-  font-weight: bold;
   text-decoration: underline ${Color.ORANGE};
 `;
 
@@ -47,6 +49,7 @@ export const LabelInputDiv = styled.div`
 `;
 
 export const Label = styled.label`
+  font-family: ${Font.SECONDARY};
   margin-left: 0.25rem;
   opacity: 0.5;
 `;
@@ -70,4 +73,5 @@ export const Submit = styled(Input)`
   background-color: ${Color.ORANGE};
   color: white;
   cursor: pointer;
+  font-family: ${Font.MAIN};
 `;

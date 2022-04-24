@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Color from '../styles/colors';
 import { ArrowForwardSharp } from '@mui/icons-material';
+import Font from '../styles/fonts';
 
 const ResultContainer = styled.div`
   align-items: center;
@@ -20,6 +21,7 @@ const ResultContainer = styled.div`
 
 const Title = styled.h1`
   color: ${Color.BLACK};
+  font-family: ${Font.MAIN};
   font-size: 1.5rem;
   margin: 0.5rem 0;
 `;
@@ -30,8 +32,9 @@ const RightSide = styled.div`
   flex-direction: row;
 `;
 
-const LearnMore = styled.p`
+export const LearnMore = styled.p`
   color: ${Color.DARK_GRAY};
+  font-family: ${Font.SECONDARY};
   font-size: 0.75rem;
   margin: 0;
   text-align: right;

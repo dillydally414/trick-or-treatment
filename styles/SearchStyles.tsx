@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Color from './colors';
+import Font from './fonts';
 
 export const SearchInfo = styled.div`
   align-items: center;
@@ -12,6 +13,7 @@ export const SearchInfo = styled.div`
 
 export const SearchHeader = styled.h1`
   color: ${Color.BLACK};
+  font-family: ${Font.MAIN};
   font-size: 2rem;
 `;
 
