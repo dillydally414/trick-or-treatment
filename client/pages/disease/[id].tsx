@@ -19,7 +19,7 @@ export default function DiseaseDetails() {
 
   useEffect(() => {
     const loadInfo = async () => {
-      // do database connection logic
+      // TODO: do database connection logic
       setLoaded(true);
     }
     if (typeof id === "string") {
