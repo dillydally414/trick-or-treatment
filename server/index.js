@@ -98,8 +98,6 @@ app.post('/api/getMedicationKnownSideEffects', (req, res) => {
 
   const sqlGetMedicationKnownSideEffectsInfo = "SELECT s.name FROM medication m JOIN known_side_effect k USING(medication_id) JOIN side_effect s USING(side_effect_id) WHERE m.medication_id = ?"
   db.query(sqlGetMedicationKnownSideEffectsInfo, [medicationId], (err, result) => {
-    console.log(err)
-    console.log(result)
     res.send(result)
   })
 

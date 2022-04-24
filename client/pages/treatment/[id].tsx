@@ -30,7 +30,7 @@ export default function TreatmentDetails() {
 
   const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState(`Treatment`);
-  const [sideEffects, setSideEffects] = useState(['No known side effects']);
+  const [sideEffects, setSideEffects] = useState([{name: 'No known side effects'}]);
   const [method, setMethod] = useState('Method');
   const [brandNames, setBrandNames] = useState<BrandName[]>([{ name: "Aleve", medication_id: 1, price: 10.00 }]);
   const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([{ name: "Migraines", disease_id: 1 }]);
@@ -44,7 +44,6 @@ export default function TreatmentDetails() {
         setMethod(response.data[0].method)
       })
 
-    // TODO: Finish this page and make sure side effects are rendering properly
     Axios.post("http://localhost:3001/api/getMedicationKnownSideEffects", {
       params: {
         medicationId: id
@@ -88,7 +87,9 @@ export default function TreatmentDetails() {
                 <Title>{name}</Title>
                 <Subtitle>{method}</Subtitle>
               </LeftCol>
-              <Information>{sideEffects.join('\n')}</Information>
+              {sideEffects.map((sideEffect) => {
+                return <Information>{sideEffect.name}</Information>
+              })}
             </TopRow>
             <BottomHalf>
               <BrandNames>
