@@ -4,6 +4,7 @@ import logo from '../public/logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Color from '../styles/colors';
+import Font from '../styles/fonts';
 
 const Container = styled.div`
   display: flex;
@@ -33,10 +34,12 @@ const BottomHalf = styled.div`
 `;
 
 const H3 = styled.h3`
+  font-family: ${Font.MAIN};
   text-align: center;
 `;
 
 const P = styled.p`
+  font-family: ${Font.SECONDARY};
   text-align: center;
 `;
 
