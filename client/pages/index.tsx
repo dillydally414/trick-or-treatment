@@ -60,9 +60,7 @@ export default function Launch() {
   const router = useRouter();
 
   const onContinue: React.MouseEventHandler<HTMLButtonElement> = (evt) => {
-    // TODO: Change this back once finished testing
-    // router.push('/signup');
-    router.push('/disease');
+    router.push('/signup');
   }
 
   return (
