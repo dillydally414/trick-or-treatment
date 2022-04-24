@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavBar from '../components/NavBar';
-import SearchBar from '../components/SearchBar';
-import Color from '../styles/colors';
+import NavBar from '../../components/NavBar';
+import SearchBar from '../../components/SearchBar';
+import Color from '../../styles/colors';
 
 const Container = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export default function Treatment() {
           <SearchHeader>Search Treatments</SearchHeader>
           {/* TODO: Style tf out of this mf search bar */}
           {/* TODO: Make the search bar work :-) */}
-          <SearchBar placeholder="Search treatments"/>
+          <SearchBar placeholder="Search treatments" />
         </SearchInfo>
       </PageContainer>
     </Container>

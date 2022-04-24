@@ -22,7 +22,7 @@ const ResultContainer = styled.div`
 const Title = styled.h1`
   color: ${Color.BLACK};
   font-size: 1.5rem;
-  margin: 2% 0;
+  margin: 0.5rem 0;
 `;
 
 const RightSide = styled.div`
