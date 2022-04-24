@@ -5,6 +5,7 @@ import Result from '../../components/Result';
 import { TreatmentType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
 import { BottomHalf, Information, Subtitle, Title, LeftCol, TopRow } from '../../styles/DetailsStyles';
+import Axios from 'axios';
 
 export default function DiseaseDetails() {
   const router = useRouter();
@@ -15,11 +16,29 @@ export default function DiseaseDetails() {
   const [name, setName] = useState(`Disease`);
   const [description, setDescription] = useState('No description provided');
   const [diseaseClass, setDiseaseClass] = useState('Disease Class');
-  const [medications, setMedications] = useState<TreatmentType[]>([{ name: "Aspirin", id: 1 }]);
+  const [medications, setMedications] = useState<TreatmentType[]>([]);
+
+  const submitSearch = () => {
+    Axios.post("http://localhost:3001/api/getDiseaseInfo", {
+      params: {
+        diseaseId: id
+      }}).then((response) => {
+        setName(response.data[0].name)
+        setDescription(response.data[0].description)
+        setDiseaseClass(response.data[0].disease_class_name)
+      })
+
+    Axios.post("http://localhost:3001/api/getKnownTreatmentOptions", {
+      params: {
+        diseaseId: id
+      }}).then((response) => {
+        setMedications(response.data)
+      })
+  }
 
   useEffect(() => {
     const loadInfo = async () => {
-      // TODO: do database connection logic
+      submitSearch();
       setLoaded(true);
     }
     if (typeof id === "string") {
@@ -42,9 +61,9 @@ export default function DiseaseDetails() {
             </TopRow>
             <Title>Treatment Options</Title>
             {medications.map((medication) => {
-              return <Result key={medication.id}
+              return <Result key={medication.medication_id}
                 title={medication.name}
-                link={`/treatment/${medication.id}`}
+                link={`/treatment/${medication.medication_id}`}
               />
             })}
           </BodyContainer>
