@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Color from '../../styles/colors';
 import NavBar from '../../components/NavBar';
+import Result from '../../components/Result';
 
 const Container = styled.div`
   display: flex;
@@ -16,17 +17,46 @@ const PageContainer = styled.div`
   background-color: ${Color.ORANGE};
 `;
 
+const BodyContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 5% 10%;
+`;
+
 const TopRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5% 15%;
+  width: 100%;
 `;
 
 const LeftCol = styled.div`
   display: flex;
   flex-direction: column;
+  width: 70%;
 `;
+
+const DiseaseTitle = styled.h1`
+  color: ${Color.BLACK};
+  font-size: 3rem;
+`;
+
+const DiseaseClass = styled.p`
+  color: ${Color.DARK_GRAY};
+  font-size: 1rem;
+`;
+
+const Description = styled.p`
+  color: ${Color.BLACK};
+  font-size: 1.25rem;
+  text-align: right;
+`;
+
+type MedicationBar = {
+  name: string,
+  id: number
+}
 
 export default function Disease() {
   const router = useRouter();
@@ -37,7 +67,7 @@ export default function Disease() {
   const [name, setName] = useState(`Disease`);
   const [description, setDescription] = useState('No description provided');
   const [diseaseClass, setDiseaseClass] = useState('Disease Class');
-  const [medications, setMedications] = useState<ReactElement[]>([<p key="1">medication 1</p>]);
+  const [medications, setMedications] = useState<MedicationBar[]>([{ name: "Aspirin", id: 1 }]);
 
   useEffect(() => {
     const loadInfo = async () => {
@@ -54,17 +84,22 @@ export default function Disease() {
       <PageContainer>
         <NavBar />
         {!loaded ? <h1>Loading...</h1> : (
-          <>
+          <BodyContainer>
             <TopRow>
               <LeftCol>
-                <h1>{name}</h1>
-                <p>{diseaseClass}</p>
+                <DiseaseTitle>{name}</DiseaseTitle>
+                <DiseaseClass>{diseaseClass}</DiseaseClass>
               </LeftCol>
-              <p>{description}</p>
+              <Description>{description}</Description>
             </TopRow>
-            <h2>Treatment Options</h2>
-            {medications}
-          </>
+            <DiseaseTitle>Treatment Options</DiseaseTitle>
+            {medications.map((medication) => {
+              return <Result key={medication.id}
+                title={medication.name}
+                link={`/treatment/${medication.id}`}
+              />
+            })}
+          </BodyContainer>
         )}
       </PageContainer>
     </Container>
