@@ -32,8 +32,8 @@ app.post('/api/getDisease', (req, res) => {
     const searchForDisease = req.body.params.searchForDisease
     const queryField = '%' + searchForDisease + '%'
 
-    const sqlGetDisease = "SELECT * FROM disease WHERE name LIKE ? OR description LIKE ?"
-    db.query(sqlGetDisease, [queryField, queryField], (err, result) => {
+    const sqlGetDisease = "SELECT * FROM disease WHERE name LIKE ?"
+    db.query(sqlGetDisease, [queryField], (err, result) => {
         res.send(result)
     })
 
