@@ -1,0 +1,26 @@
+{
+  "name": "trick-or-treatment",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -n \"frontend, backend\" \"yarn dev:frontend\" \"yarn dev:backend\"",
+    "dev:frontend": "yarn workspace client run dev",
+    "dev:backend": "yarn workspace server run dev",
+    "build": "yarn workspace client run build",
+    "start": "concurrently -n \"frontend, backend\" \"yarn start:frontend\" \"yarn start:backend\"",
+    "start:frontend": "yarn workspace client run start",
+    "start:backend": "yarn workspace server run start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^12.1.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "*"
+    ]
+  }
+}
