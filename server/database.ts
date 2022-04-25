@@ -29,5 +29,5 @@ export const handleQuery = async (props: QueryProps) => {
   }).catch((err) => {
     props.res.status(500).json(err);
   });
-  db.end();
+  await db.end();
 }
