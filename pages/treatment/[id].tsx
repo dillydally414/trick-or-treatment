@@ -99,7 +99,11 @@ export default function TreatmentDetails() {
               <Subtitle>
                 Side Effects:
                 {sideEffects.map((sideEffect) => {
-                  return <SideEffects>{sideEffect.name.charAt(0).toUpperCase() + sideEffect.name.slice(1)}</SideEffects>
+                  return (
+                    <SideEffects key={sideEffect.name}>
+                      {sideEffect.name.charAt(0).toUpperCase() + sideEffect.name.slice(1)}
+                    </SideEffects>
+                  )
                 })}
               </Subtitle>
             </TopRow>
