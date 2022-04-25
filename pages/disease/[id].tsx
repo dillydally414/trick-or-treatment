@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       diseaseClass = diseaseClass.charAt(0).toUpperCase() + diseaseClass.slice(1)
     });
 
-    await fetch(`${process.env.VERCEL_URL}/api/disease/treatment-options?diseaseId=${id}`).then(async (response) => {
+    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/disease/treatment-options?diseaseId=${id}`).then(async (response) => {
       medications = (await response.json())[0]
     })
   }
