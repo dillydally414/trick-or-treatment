@@ -57,25 +57,27 @@ export default function SearchBar({
 
   const submitSearch = () => {
     if (placeholder === "Search diseases") {
-      Axios.post("http://localhost:3001/api/getDisease", {
+      Axios.post(`/api/disease/search`, {
         params: {
           searchForDisease: searchField
-        }}).then((response) => {
-          setSearchResults(response.data)
-        })
+        }
+      }).then((response) => {
+        setSearchResults(response.data[0])
+      }).catch(err => console.error(err));
     }
     else if (placeholder === "Search treatments") {
-      Axios.post("http://localhost:3001/api/getTreatment", {
+      Axios.post(`/api/treatment/search`, {
         params: {
           searchForTreatment: searchField
-        }}).then((response) => {
-          setSearchResults(response.data)
-        })
+        }
+      }).then((response) => {
+        setSearchResults(response.data[0])
+      })
     }
   }
 
   return (
-    <SearchContainer action="/" method="get" onSubmit={(e) => {e.preventDefault()}}>
+    <SearchContainer action="/" method="get" onSubmit={(e) => { e.preventDefault() }}>
       <TextInput
         type="text"
         id="header-search"

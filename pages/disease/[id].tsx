@@ -15,7 +15,7 @@ export default function DiseaseDetails() {
   const [name, setName] = useState(`Disease`);
   const [description, setDescription] = useState('No description provided');
   const [diseaseClass, setDiseaseClass] = useState('Disease Class');
-  const [medications, setMedications] = useState<TreatmentType[]>([{ name: "Aspirin", id: 1 }]);
+  const [medications, setMedications] = useState<TreatmentType[]>([{ name: "Aspirin", medication_id: 1 }]);
 
   useEffect(() => {
     const loadInfo = async () => {
@@ -42,9 +42,10 @@ export default function DiseaseDetails() {
             </TopRow>
             <Title>Treatment Options</Title>
             {medications.map((medication) => {
-              return <Result key={medication.id}
+              return <Result
+                key={medication.medication_id}
                 title={medication.name}
-                link={`/treatment/${medication.id}`}
+                link={`/treatment/${medication.medication_id}`}
               />
             })}
           </BodyContainer>
