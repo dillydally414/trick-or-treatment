@@ -8,6 +8,12 @@ import { TradeName, DiseaseType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
 import { TopRow, LeftCol, Title, Subtitle, Information, SideEffects, BottomHalf } from '../../styles/DetailsStyles';
 import Axios from 'axios';
+import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
+
+const RightCol = styled.div`
+  dispaly: flex;
+  flex-direction: column;
+`
 
 const BrandNames = styled.div`
   align-items: center;
@@ -23,116 +29,121 @@ const RelevantDiseases = styled.div`
   width: 50%;
 `;
 
-export default function TreatmentDetails() {
-  const router = useRouter();
+type TreatmentDetailsProps = {
+  name: string,
+  sideEffects: { name: string }[],
+  method: string,
+  brandNames: TradeName[],
+  relevantDiseases: DiseaseType[]
+}
 
-  const { id } = router.query;
+export async function getServerSideProps({ params }: GetServerSidePropsContext<{ id: string }>): Promise<GetServerSidePropsResult<TreatmentDetailsProps>> {
+  const id = params?.id;
+  let name = "Treatment"
+  let sideEffects = [{ name: 'No known side effects' }]
+  let method = "Method"
+  let brandNames: TradeName[] = []
+  let relevantDiseases: DiseaseType[] = []
 
-  const [loaded, setLoaded] = useState(false);
-  const [name, setName] = useState(`Treatment`);
-  const [sideEffects, setSideEffects] = useState([{ name: 'No known side effects' }]);
-  const [method, setMethod] = useState('Method');
-  const [brandNames, setBrandNames] = useState<TradeName[]>([]);
-  const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([]);
-
-  const submitSearch = async () => {
-    await Axios.post(`/api/treatment/info`, {
+  if (id) {
+    await Axios.post(`${process.env.VERCEL_URL}/api/treatment/info`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
       const medication = response.data[0][0]
-      let initialName = medication.name
-      initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
-      setName(initialName)
+      name = medication.name
+      name = name.charAt(0).toUpperCase() + name.slice(1)
 
-      let initialMethod = medication.method
-      initialMethod = initialMethod.charAt(0).toUpperCase() + initialMethod.slice(1)
-      setMethod(initialMethod)
+      method = medication.method
+      method = method.charAt(0).toUpperCase() + method.slice(1)
     })
 
-    await Axios.post(`/api/treatment/side-effects`, {
+    await Axios.post(`${process.env.VERCEL_URL}/api/treatment/side-effects`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setSideEffects(response.data[0])
+      sideEffects = response.data[0]
     })
 
-    await Axios.post(`/api/treatment/brand-names`, {
+    await Axios.post(`${process.env.VERCEL_URL}/api/treatment/brand-names`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setBrandNames(response.data[0])
+      brandNames = response.data[0]
     })
 
-    await Axios.post(`/api/treatment/relevant-diseases`, {
+    await Axios.post(`${process.env.VERCEL_URL}/api/treatment/relevant-diseases`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setRelevantDiseases(response.data[0])
+      relevantDiseases = response.data[0]
     })
   }
 
-  useEffect(() => {
-    const loadInfo = async () => {
-      await submitSearch();
-      setLoaded(true);
+  return {
+    props: {
+      name: name,
+      sideEffects: sideEffects,
+      method: method,
+      brandNames: brandNames,
+      relevantDiseases: relevantDiseases
     }
-    if (typeof id === "string") {
-      loadInfo();
-    }
-  }, [id])
+  }
+}
+
+export default function TreatmentDetails({ name, sideEffects, method, brandNames, relevantDiseases }: TreatmentDetailsProps) {
 
   return (
     <Container>
       <PageContainer>
         <NavBar />
-        {!loaded ? <h1>Loading...</h1> : (
-          <BodyContainer>
-            <TopRow>
-              <LeftCol>
-                <Title>{name}</Title>
-                <Subtitle>Method of Ingestion: {method}</Subtitle>
-              </LeftCol>
+        <BodyContainer>
+          <TopRow>
+            <LeftCol>
+              <Title>{name}</Title>
+              <Subtitle>Method of Ingestion: {method}</Subtitle>
+            </LeftCol>
+            <RightCol>
               <Subtitle>
                 Side Effects:
-                {sideEffects.map((sideEffect) => {
-                  return (
-                    <SideEffects key={sideEffect.name}>
-                      {sideEffect.name.charAt(0).toUpperCase() + sideEffect.name.slice(1)}
-                    </SideEffects>
-                  )
-                })}
               </Subtitle>
-            </TopRow>
-            <BottomHalf>
-              <BrandNames>
-                <Title>Brand Names</Title>
-                {brandNames.map((brandName) => {
-                  return <Result
-                    key={`brand_${brandName.trade_name_id}`}
-                    title={brandName.name.charAt(0).toUpperCase() + brandName.name.slice(1)}
-                    rightSide={<LearnMore>${brandName.price}</LearnMore>}
-                  />
-                })}
-              </BrandNames>
-              <RelevantDiseases>
-                <Title>Relevant Diseases</Title>
-                {relevantDiseases.map((disease) => {
-                  return <Result
-                    key={`disease_${disease.disease_id}`}
-                    title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)}
-                    link={`/disease/${disease.disease_id}`}
-                    rightSide={<ArrowForwardSharp style={{ margin: 0 }} />}
-                  />
-                })}
-              </RelevantDiseases>
-            </BottomHalf>
-          </BodyContainer>
-        )}
+              {sideEffects.map((sideEffect) => {
+                return (
+                  <SideEffects key={sideEffect.name}>
+                    {sideEffect.name.charAt(0).toUpperCase() + sideEffect.name.slice(1)}
+                  </SideEffects>
+                )
+              })}
+            </RightCol>
+          </TopRow>
+          <BottomHalf>
+            <BrandNames>
+              <Title>Brand Names</Title>
+              {brandNames.map((brandName) => {
+                return <Result
+                  key={`brand_${brandName.trade_name_id}`}
+                  title={brandName.name.charAt(0).toUpperCase() + brandName.name.slice(1)}
+                  rightSide={<LearnMore>${brandName.price}</LearnMore>}
+                />
+              })}
+            </BrandNames>
+            <RelevantDiseases>
+              <Title>Relevant Diseases</Title>
+              {relevantDiseases.map((disease) => {
+                return <Result
+                  key={`disease_${disease.disease_id}`}
+                  title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)}
+                  link={`/disease/${disease.disease_id}`}
+                  rightSide={<ArrowForwardSharp style={{ margin: 0 }} />}
+                />
+              })}
+            </RelevantDiseases>
+          </BottomHalf>
+        </BodyContainer>
       </PageContainer>
     </Container>
   );
