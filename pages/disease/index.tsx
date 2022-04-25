@@ -22,7 +22,7 @@ export default function Disease() {
             {results.map((disease) => {
               return <Result
                 key={disease.disease_id}
-                title={disease.name}
+                title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)}
                 link={`/disease/${disease.disease_id}`}
               />
             })}

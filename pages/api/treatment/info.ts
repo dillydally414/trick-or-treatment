@@ -2,14 +2,13 @@ import { NextApiHandler } from "next";
 import { handleQuery } from "../../../server/database";
 
 const handler: NextApiHandler = async (req, res) => {
-  const { searchField } = req.query
-  const queryField = '%' + searchField + '%'
+  const { medicationId } = req.query
 
-  const sqlGetDisease = "SELECT * FROM disease WHERE name LIKE ?"
+  const sqlGetMedicationInfo = "SELECT m.name AS name, m.method AS method FROM medication m WHERE m.medication_id = ?"
 
   await handleQuery({
-    query: sqlGetDisease,
-    values: queryField,
+    query: sqlGetMedicationInfo,
+    values: medicationId,
     res: res
   });
 }

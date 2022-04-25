@@ -57,16 +57,12 @@ export default function SearchBar({
 
   const [searchField, setSearchField] = useState('')
 
-  const submitSearch = () => {
-    Axios.post(`/api/${type}/search`, {
-      params: {
-        searchField: searchField
-      }
-    }).then((res) => {
+  const submitSearch = async () => {
+    await fetch(`/api/${type}/search?searchField=${searchField}`).then(async (res) => {
       if (res.status !== 200) {
         console.error(res);
       } else {
-        setSearchResults(res.data[0]);
+        setSearchResults((await res.json())[0]);
       }
     }).catch(err => console.error(err));
   }

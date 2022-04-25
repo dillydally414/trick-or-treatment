@@ -35,6 +35,17 @@ export const Information = styled.p`
   text-align: right;
 `;
 
+export const SideEffects = styled.p`
+  color: ${Color.BLACK};
+  font-family: ${Font.SECONDARY};
+  font-size: 1.25rem;
+  text-align: left;
+`;
+
+export const Horizontal = styled.div`
+  flex-direction: row;
+`;
+
 export const BottomHalf = styled.div`
   display: flex;
   flex-direction: row;
