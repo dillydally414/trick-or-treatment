@@ -22,26 +22,28 @@ export default function DiseaseDetails() {
     Axios.post("http://localhost:3001/api/getDiseaseInfo", {
       params: {
         diseaseId: id
-      }}).then((response) => {
-        let initialName = response.data[0].name
-        initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
-        setName(initialName)
+      }
+    }).then((response) => {
+      let initialName = response.data[0].name
+      initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
+      setName(initialName)
 
-        let initialDescription = response.data[0].description
-        initialDescription ? initialDescription = initialDescription.charAt(0).toUpperCase() + initialDescription.slice(1) : initialDescription = 'No description provided';
-        setDescription(initialDescription)
+      let initialDescription = response.data[0].description
+      initialDescription ? initialDescription = initialDescription.charAt(0).toUpperCase() + initialDescription.slice(1) : initialDescription = 'No description provided';
+      setDescription(initialDescription)
 
-        let initialDiseaseClass = response.data[0].disease_class_name
-        initialDiseaseClass = initialDiseaseClass.charAt(0).toUpperCase() + initialDiseaseClass.slice(1)
-        setDiseaseClass(initialDiseaseClass)
-      })
+      let initialDiseaseClass = response.data[0].disease_class_name
+      initialDiseaseClass = initialDiseaseClass.charAt(0).toUpperCase() + initialDiseaseClass.slice(1)
+      setDiseaseClass(initialDiseaseClass)
+    })
 
     Axios.post("http://localhost:3001/api/getKnownTreatmentOptions", {
       params: {
         diseaseId: id
-      }}).then((response) => {
-        setMedications(response.data)
-      })
+      }
+    }).then((response) => {
+      setMedications(response.data)
+    })
   }
 
   useEffect(() => {
@@ -69,7 +71,8 @@ export default function DiseaseDetails() {
             </TopRow>
             <Title>Treatment Options</Title>
             {medications.map((medication) => {
-              return <Result key={medication.medication_id}
+              return <Result
+                key={medication.medication_id}
                 title={medication.name.charAt(0).toUpperCase() + medication.name.slice(1)}
                 link={`/treatment/${medication.medication_id}`}
               />

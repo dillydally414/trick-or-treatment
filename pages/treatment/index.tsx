@@ -16,11 +16,15 @@ export default function Treatment() {
         <BodyContainer>
           <SearchInfo>
             <SearchHeader>Search Treatments</SearchHeader>
-            <SearchBar placeholder="Search treatments" setSearchResults={setResults} />
+            <SearchBar type="treatment" placeholder="Search treatments" setSearchResults={setResults} />
           </SearchInfo>
           <SearchResults>
             {results.map((treatment) => {
-              return <Result key={treatment.medication_id} title={treatment.name.charAt(0).toUpperCase() + treatment.name.slice(1)} link={`/treatment/${treatment.medication_id}`} />
+              return <Result
+                key={treatment.medication_id}
+                title={treatment.name.charAt(0).toUpperCase() + treatment.name.slice(1)}
+                link={`/treatment/${treatment.medication_id}`}
+              />
             })}
           </SearchResults>
         </BodyContainer>
