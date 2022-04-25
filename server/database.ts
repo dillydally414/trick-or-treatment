@@ -18,11 +18,10 @@ type QueryProps = {
 }
 
 export const handleQuery = async (props: QueryProps) => {
-  const connection = await db.getConnection();
-  await connection.execute(props.query, typeof props.values === "string" ? [props.values] : props.values).then((result) => {
+  await db.query(props.query, typeof props.values === "string" ? [props.values] : props.values).then((result) => {
     props.res.status(200).json(result);
   }).catch((err) => {
     props.res.status(500).json(err);
   })
-  connection.release();
+  await db.end();
 }
