@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import connect from "../../../server/database";
+import { handleQuery } from "../../../server/database";
 
 const handler: NextApiHandler = async (req, res) => {
   const searchForDisease = req.body.params.searchField
@@ -7,13 +7,11 @@ const handler: NextApiHandler = async (req, res) => {
 
   const sqlGetDisease = "SELECT * FROM disease WHERE name LIKE ?"
 
-  const { connection, closeConnection } = await connect();
-  await connection.query(sqlGetDisease, [queryField]).then((result) => {
-    res.status(200).json(result);
-  }).catch((err) => {
-    res.status(500).json(err);
-  })
-  closeConnection();
+  await handleQuery({
+    query: sqlGetDisease,
+    values: queryField,
+    res: res
+  });
 }
 
 export default handler;

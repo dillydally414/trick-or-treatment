@@ -1,23 +1,28 @@
-import mysql from 'mysql2/promise';
+import mysql, { PoolConnection } from 'mysql2/promise';
 import { config } from 'dotenv';
+import { NextApiResponse } from 'next';
 
 config();
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
 });
 
-const connect = async () => {
-  const connection = await db;
-  await connection.connect();
-  const closeConnection = async () => { await connection.end(); }
-  return {
-    connection,
-    closeConnection
-  }
+type QueryProps = {
+  query: string
+  values: string | string[]
+  res: NextApiResponse
 }
 
-export default connect;
+export const handleQuery = async (props: QueryProps) => {
+  const connection = await db.getConnection();
+  await connection.execute(props.query, typeof props.values === "string" ? [props.values] : props.values).then((result) => {
+    props.res.status(200).json(result);
+  }).catch((err) => {
+    props.res.status(500).json(err);
+  })
+  connection.release();
+}

@@ -64,7 +64,6 @@ export default function TreatmentDetails() {
         medicationId: id
       }
     }).then((response) => {
-      console.log(response);
       setBrandNames(response.data[0])
     })
 
