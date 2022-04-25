@@ -44,11 +44,13 @@ const SearchIcon = styled(Search)`
 `;
 
 interface SearchBarProps {
-  placeholder: string;
-  setSearchResults: Function;
+  type: "disease" | "treatment"
+  placeholder: string
+  setSearchResults: Function
 }
 
 export default function SearchBar({
+  type,
   placeholder,
   setSearchResults
 }: SearchBarProps) {
@@ -56,24 +58,13 @@ export default function SearchBar({
   const [searchField, setSearchField] = useState('')
 
   const submitSearch = () => {
-    if (placeholder === "Search diseases") {
-      Axios.post(`/api/disease/search`, {
-        params: {
-          searchForDisease: searchField
-        }
-      }).then((response) => {
-        setSearchResults(response.data[0])
-      }).catch(err => console.error(err));
-    }
-    else if (placeholder === "Search treatments") {
-      Axios.post(`/api/treatment/search`, {
-        params: {
-          searchForTreatment: searchField
-        }
-      }).then((response) => {
-        setSearchResults(response.data[0])
-      })
-    }
+    Axios.post(`/api/${type}/search`, {
+      params: {
+        searchField: searchField
+      }
+    }).then((response) => {
+      setSearchResults(response.data[0])
+    }).catch(err => console.error(err));
   }
 
   return (

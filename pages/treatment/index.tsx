@@ -16,7 +16,7 @@ export default function Treatment() {
         <BodyContainer>
           <SearchInfo>
             <SearchHeader>Search Treatments</SearchHeader>
-            <SearchBar placeholder="Search treatments" setSearchResults={setResults} />
+            <SearchBar type="treatment" placeholder="Search treatments" setSearchResults={setResults} />
           </SearchInfo>
           <SearchResults>
             {results.map((treatment) => {
