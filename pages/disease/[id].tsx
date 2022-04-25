@@ -24,12 +24,8 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
   let medications: TreatmentType[] = []
 
   if (id) {
-    await Axios.post(`${process.env.VERCEL_URL}/api/disease/info`, {
-      params: {
-        diseaseId: id
-      }
-    }).then((response) => {
-      const disease: DiseaseType = response.data[0][0]
+    await fetch(`${process.env.VERCEL_URL}/api/disease/info?diseaseId=${id}`).then(async (response) => {
+      const disease: DiseaseType = (await response.json())[0][0]
       name = disease.name
       name = name.charAt(0).toUpperCase() + name.slice(1)
       if (disease.description) {
@@ -40,12 +36,8 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       diseaseClass = diseaseClass.charAt(0).toUpperCase() + diseaseClass.slice(1)
     });
 
-    await Axios.post(`${process.env.VERCEL_URL}/api/disease/treatment-options`, {
-      params: {
-        diseaseId: id
-      },
-    }).then((response) => {
-      medications = response.data[0]
+    await fetch(`${process.env.VERCEL_URL}/api/disease/treatment-options?diseaseId=${id}`).then(async (response) => {
+      medications = (await response.json())[0]
     })
   }
 

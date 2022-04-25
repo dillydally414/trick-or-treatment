@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "concurrently -n \"frontend,backend\" \"next start\" \"node main\"",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
