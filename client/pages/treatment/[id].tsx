@@ -6,7 +6,7 @@ import Result, { LearnMore } from '../../components/Result';
 import { ArrowForwardSharp } from '@mui/icons-material';
 import { BrandName, DiseaseType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
-import { TopRow, LeftCol, Title, Subtitle, Information, BottomHalf } from '../../styles/DetailsStyles';
+import { TopRow, LeftCol, Title, Subtitle, Information, SideEffects, BottomHalf } from '../../styles/DetailsStyles';
 import Axios from 'axios';
 
 const BrandNames = styled.div`
@@ -40,8 +40,13 @@ export default function TreatmentDetails() {
       params: {
         medicationId: id
       }}).then((response) => {
-        setName(response.data[0].name)
-        setMethod(response.data[0].method)
+        let initialName = response.data[0].name
+        initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
+        setName(initialName)
+
+        let initialMethod = response.data[0].method
+        initialMethod = initialMethod.charAt(0).toUpperCase() + initialMethod.slice(1)
+        setMethod(initialMethod)
       })
 
     Axios.post("http://localhost:3001/api/getMedicationKnownSideEffects", {
@@ -85,18 +90,21 @@ export default function TreatmentDetails() {
             <TopRow>
               <LeftCol>
                 <Title>{name}</Title>
-                <Subtitle>{method}</Subtitle>
+                <Subtitle>Method of Ingestion: {method}</Subtitle>
               </LeftCol>
-              {sideEffects.map((sideEffect) => {
-                return <Information>{sideEffect.name}</Information>
-              })}
+              <Subtitle>
+                  Side Effects:
+                  {sideEffects.map((sideEffect) => {
+                    return <SideEffects>{sideEffect.name.charAt(0).toUpperCase() + sideEffect.name.slice(1)}</SideEffects>
+                  })}
+              </Subtitle>
             </TopRow>
             <BottomHalf>
               <BrandNames>
                 <Title>Brand Names</Title>
                 {brandNames.map((brandName) => {
                   return <Result key={brandName.medication_id}
-                    title={brandName.name}
+                    title={brandName.name.charAt(0).toUpperCase() + brandName.name.slice(1)}
                     rightSide={<LearnMore>${brandName.price}</LearnMore>}
                   />
                 })}
@@ -105,7 +113,7 @@ export default function TreatmentDetails() {
                 <Title>Relevant Diseases</Title>
                 {relevantDiseases.map((disease) => {
                   return <Result key={disease.disease_id}
-                    title={disease.name}
+                    title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)}
                     link={`/disease/${disease.disease_id}`}
                     rightSide={<ArrowForwardSharp style={{ margin: 0 }} />}
                   />

@@ -20,7 +20,7 @@ export default function Treatment() {
           </SearchInfo>
           <SearchResults>
             {results.map((treatment) => {
-              return <Result key={treatment.medication_id} title={treatment.name} link={`/treatment/${treatment.medication_id}`} />
+              return <Result key={treatment.medication_id} title={treatment.name.charAt(0).toUpperCase() + treatment.name.slice(1)} link={`/treatment/${treatment.medication_id}`} />
             })}
           </SearchResults>
         </BodyContainer>

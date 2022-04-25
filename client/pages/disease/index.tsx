@@ -20,7 +20,7 @@ export default function Disease() {
           </SearchInfo>
           <SearchResults>
             {results.map((disease) => {
-              return <Result key={disease.disease_id} title={disease.name} link={`/disease/${disease.disease_id}`} />
+              return <Result key={disease.disease_id} title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)} link={`/disease/${disease.disease_id}`} />
             })}
           </SearchResults>
         </BodyContainer>

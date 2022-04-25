@@ -23,9 +23,17 @@ export default function DiseaseDetails() {
       params: {
         diseaseId: id
       }}).then((response) => {
-        setName(response.data[0].name)
-        setDescription(response.data[0].description)
-        setDiseaseClass(response.data[0].disease_class_name)
+        let initialName = response.data[0].name
+        initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
+        setName(initialName)
+
+        let initialDescription = response.data[0].description
+        initialDescription ? initialDescription = initialDescription.charAt(0).toUpperCase() + initialDescription.slice(1) : initialDescription = 'No description provided';
+        setDescription(initialDescription)
+
+        let initialDiseaseClass = response.data[0].disease_class_name
+        initialDiseaseClass = initialDiseaseClass.charAt(0).toUpperCase() + initialDiseaseClass.slice(1)
+        setDiseaseClass(initialDiseaseClass)
       })
 
     Axios.post("http://localhost:3001/api/getKnownTreatmentOptions", {
@@ -55,14 +63,14 @@ export default function DiseaseDetails() {
             <TopRow>
               <LeftCol>
                 <Title>{name}</Title>
-                <Subtitle>{diseaseClass}</Subtitle>
+                <Subtitle>Disease Class: {diseaseClass}</Subtitle>
               </LeftCol>
               <Information>{description}</Information>
             </TopRow>
             <Title>Treatment Options</Title>
             {medications.map((medication) => {
               return <Result key={medication.medication_id}
-                title={medication.name}
+                title={medication.name.charAt(0).toUpperCase() + medication.name.slice(1)}
                 link={`/treatment/${medication.medication_id}`}
               />
             })}
