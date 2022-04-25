@@ -24,6 +24,7 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
   let medications: TreatmentType[] = []
 
   if (id) {
+    console.log(process.env.VERCEL_URL)
     await fetch(`${process.env.VERCEL_URL}/api/disease/info?diseaseId=${id}`).then(async (response) => {
       const disease: DiseaseType = (await response.json())[0][0]
       name = disease.name
