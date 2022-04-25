@@ -44,11 +44,13 @@ const SearchIcon = styled(Search)`
 `;
 
 interface SearchBarProps {
-  placeholder: string;
-  setSearchResults: Function;
+  type: "disease" | "treatment"
+  placeholder: string
+  setSearchResults: Function
 }
 
 export default function SearchBar({
+  type,
   placeholder,
   setSearchResults
 }: SearchBarProps) {
@@ -56,26 +58,21 @@ export default function SearchBar({
   const [searchField, setSearchField] = useState('')
 
   const submitSearch = () => {
-    if (placeholder === "Search diseases") {
-      Axios.post("http://localhost:3001/api/getDisease", {
-        params: {
-          searchForDisease: searchField
-        }}).then((response) => {
-          setSearchResults(response.data)
-        })
-    }
-    else if (placeholder === "Search treatments") {
-      Axios.post("http://localhost:3001/api/getTreatment", {
-        params: {
-          searchForTreatment: searchField
-        }}).then((response) => {
-          setSearchResults(response.data)
-        })
-    }
+    Axios.post(`/api/${type}/search`, {
+      params: {
+        searchField: searchField
+      }
+    }).then((res) => {
+      if (res.status !== 200) {
+        console.error(res);
+      } else {
+        setSearchResults(res.data[0]);
+      }
+    }).catch(err => console.error(err));
   }
 
   return (
-    <SearchContainer action="/" method="get" onSubmit={(e) => {e.preventDefault()}}>
+    <SearchContainer action="/" method="get" onSubmit={(e) => { e.preventDefault() }}>
       <TextInput
         type="text"
         id="header-search"

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import NavBar from '../../components/NavBar';
 import Result, { LearnMore } from '../../components/Result';
 import { ArrowForwardSharp } from '@mui/icons-material';
-import { BrandName, DiseaseType } from '../../types';
+import { TradeName, DiseaseType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
 import { TopRow, LeftCol, Title, Subtitle, Information, BottomHalf } from '../../styles/DetailsStyles';
 
@@ -31,8 +31,8 @@ export default function TreatmentDetails() {
   const [name, setName] = useState(`Treatment`);
   const [sideEffects, setSideEffects] = useState(['No known side effects']);
   const [method, setMethod] = useState('Method');
-  const [brandNames, setBrandNames] = useState<BrandName[]>([{ name: "Aleve", id: 1, price: 10.00 }]);
-  const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([{ name: "Migraines", id: 1 }]);
+  const [brandNames, setBrandNames] = useState<TradeName[]>([{ name: "Aleve", trade_name_id: 1, price: 10.00, medication_id: 1 }]);
+  const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([{ name: "Migraines", disease_id: 1, disease_class_id: 1 }]);
 
 
   useEffect(() => {
@@ -62,7 +62,8 @@ export default function TreatmentDetails() {
               <BrandNames>
                 <Title>Brand Names</Title>
                 {brandNames.map((brandName) => {
-                  return <Result key={brandName.id}
+                  return <Result
+                    key={brandName.trade_name_id}
                     title={brandName.name}
                     rightSide={<LearnMore>${brandName.price}</LearnMore>}
                   />
@@ -71,9 +72,10 @@ export default function TreatmentDetails() {
               <RelevantDiseases>
                 <Title>Relevant Diseases</Title>
                 {relevantDiseases.map((disease) => {
-                  return <Result key={disease.id}
+                  return <Result
+                    key={disease.disease_id}
                     title={disease.name}
-                    link={`/disease/${disease.id}`}
+                    link={`/disease/${disease.disease_id}`}
                     rightSide={<ArrowForwardSharp style={{ margin: 0 }} />}
                   />
                 })}

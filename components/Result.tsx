@@ -44,7 +44,10 @@ export default function Result(props: { title: string, rightSide?: ReactElement,
   const router = useRouter();
 
   return (
-    <ResultContainer onClick={() => { props.link && router.push(props.link) }} title={props.link ? 'link' : undefined}>
+    <ResultContainer
+      onClick={() => { props.link && router.push(props.link) }}
+      title={props.link ? 'link' : undefined}
+    >
       <Title>{props.title}</Title>
       {props.rightSide ? props.rightSide : (
         <RightSide>

@@ -4,10 +4,10 @@ import Result from '../../components/Result';
 import SearchBar from '../../components/SearchBar';
 import { BodyContainer, Container, PageContainer } from '../../styles/CommonStyles';
 import { SearchInfo, SearchHeader, SearchResults } from '../../styles/SearchStyles';
-import { DiseaseType } from '../../types';
+import { TreatmentType } from '../../types';
 
-export default function Disease() {
-  const [results, setResults] = useState<DiseaseType[]>([]);
+export default function Treatment() {
+  const [results, setResults] = useState<TreatmentType[]>([]);
 
   return (
     <Container>
@@ -15,12 +15,16 @@ export default function Disease() {
         <NavBar />
         <BodyContainer>
           <SearchInfo>
-            <SearchHeader>Search Diseases</SearchHeader>
-            <SearchBar placeholder="Search diseases" setSearchResults={setResults} />
+            <SearchHeader>Search Treatments</SearchHeader>
+            <SearchBar type="treatment" placeholder="Search treatments" setSearchResults={setResults} />
           </SearchInfo>
           <SearchResults>
-            {results.map((disease) => {
-              return <Result key={disease.id} title={disease.name} link={`/disease/${disease.id}`} />
+            {results.map((treatment) => {
+              return <Result
+                key={treatment.medication_id}
+                title={treatment.name}
+                link={`/treatment/${treatment.medication_id}`}
+              />
             })}
           </SearchResults>
         </BodyContainer>
