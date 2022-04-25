@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import NavBar from '../../components/NavBar';
 import Result from '../../components/Result';
-import { TreatmentType } from '../../types';
+import { DiseaseType, TreatmentType } from '../../types';
 import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyles';
 import { BottomHalf, Information, Subtitle, Title, LeftCol, TopRow } from '../../styles/DetailsStyles';
 import Axios from 'axios';
@@ -18,37 +18,38 @@ export default function DiseaseDetails() {
   const [diseaseClass, setDiseaseClass] = useState('Disease Class');
   const [medications, setMedications] = useState<TreatmentType[]>([]);
 
-  const submitSearch = () => {
-    Axios.post("http://localhost:3001/api/getDiseaseInfo", {
+  const submitSearch = async () => {
+    await Axios.post(`/api/disease/info`, {
       params: {
         diseaseId: id
       }
     }).then((response) => {
-      let initialName = response.data[0].name
+      const disease: DiseaseType = response.data[0][0]
+      let initialName = disease.name
       initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
       setName(initialName)
 
-      let initialDescription = response.data[0].description
-      initialDescription ? initialDescription = initialDescription.charAt(0).toUpperCase() + initialDescription.slice(1) : initialDescription = 'No description provided';
+      let initialDescription = disease.description
+      initialDescription = initialDescription ? initialDescription.charAt(0).toUpperCase() + initialDescription.slice(1) : 'No description provided';
       setDescription(initialDescription)
 
-      let initialDiseaseClass = response.data[0].disease_class_name
+      let initialDiseaseClass = disease.disease_class_name
       initialDiseaseClass = initialDiseaseClass.charAt(0).toUpperCase() + initialDiseaseClass.slice(1)
       setDiseaseClass(initialDiseaseClass)
     })
 
-    Axios.post("http://localhost:3001/api/getKnownTreatmentOptions", {
+    await Axios.post(`/api/disease/treatment-options`, {
       params: {
         diseaseId: id
       }
     }).then((response) => {
-      setMedications(response.data)
+      setMedications(response.data[0])
     })
   }
 
   useEffect(() => {
     const loadInfo = async () => {
-      submitSearch();
+      await submitSearch();
       setLoaded(true);
     }
     if (typeof id === "string") {

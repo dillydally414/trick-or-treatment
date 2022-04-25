@@ -2,7 +2,7 @@ export type DiseaseType = {
   disease_id: number
   name: string
   description?: string
-  disease_class_id: number
+  disease_class_name: string
 }
 
 export type TreatmentType = {

@@ -35,49 +35,51 @@ export default function TreatmentDetails() {
   const [brandNames, setBrandNames] = useState<TradeName[]>([]);
   const [relevantDiseases, setRelevantDiseases] = useState<DiseaseType[]>([]);
 
-  const submitSearch = () => {
-    Axios.post("http://localhost:3001/api/getMedicationInfo", {
+  const submitSearch = async () => {
+    await Axios.post(`/api/treatment/info`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      let initialName = response.data[0].name
+      const medication = response.data[0][0]
+      let initialName = medication.name
       initialName = initialName.charAt(0).toUpperCase() + initialName.slice(1)
       setName(initialName)
 
-      let initialMethod = response.data[0].method
+      let initialMethod = medication.method
       initialMethod = initialMethod.charAt(0).toUpperCase() + initialMethod.slice(1)
       setMethod(initialMethod)
     })
 
-    Axios.post("http://localhost:3001/api/getMedicationKnownSideEffects", {
+    await Axios.post(`/api/treatment/side-effects`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setSideEffects(response.data)
+      setSideEffects(response.data[0])
     })
 
-    Axios.post("http://localhost:3001/api/getMedicationBrandNames", {
+    await Axios.post(`/api/treatment/brand-names`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setBrandNames(response.data)
+      console.log(response);
+      setBrandNames(response.data[0])
     })
 
-    Axios.post("http://localhost:3001/api/getMedicationRelevantDiseases", {
+    await Axios.post(`/api/treatment/relevant-diseases`, {
       params: {
         medicationId: id
       }
     }).then((response) => {
-      setRelevantDiseases(response.data)
+      setRelevantDiseases(response.data[0])
     })
   }
 
   useEffect(() => {
     const loadInfo = async () => {
-      submitSearch();
+      await submitSearch();
       setLoaded(true);
     }
     if (typeof id === "string") {
@@ -112,7 +114,7 @@ export default function TreatmentDetails() {
                 <Title>Brand Names</Title>
                 {brandNames.map((brandName) => {
                   return <Result
-                    key={brandName.medication_id}
+                    key={`brand_${brandName.trade_name_id}`}
                     title={brandName.name.charAt(0).toUpperCase() + brandName.name.slice(1)}
                     rightSide={<LearnMore>${brandName.price}</LearnMore>}
                   />
@@ -122,7 +124,7 @@ export default function TreatmentDetails() {
                 <Title>Relevant Diseases</Title>
                 {relevantDiseases.map((disease) => {
                   return <Result
-                    key={disease.disease_id}
+                    key={`disease_${disease.disease_id}`}
                     title={disease.name.charAt(0).toUpperCase() + disease.name.slice(1)}
                     link={`/disease/${disease.disease_id}`}
                     rightSide={<ArrowForwardSharp style={{ margin: 0 }} />}
