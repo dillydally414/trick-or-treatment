@@ -62,8 +62,12 @@ export default function SearchBar({
       params: {
         searchField: searchField
       }
-    }).then((response) => {
-      setSearchResults(response.data[0])
+    }).then((res) => {
+      if (res.status !== 200) {
+        console.error(res);
+      } else {
+        setSearchResults(res.data[0]);
+      }
     }).catch(err => console.error(err));
   }
 
