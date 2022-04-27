@@ -1,5 +1,5 @@
 import { Autocomplete, IconContainerProps, Rating, TextField } from '@mui/material';
-import { GetStaticPropsResult } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import NavBar from '../components/NavBar';
@@ -85,7 +85,7 @@ type AddTreatmentProps = {
   sideEffects: SideEffectType[]
 }
 
-export async function getStaticProps(): Promise<GetStaticPropsResult<AddTreatmentProps>> {
+export async function getServerSideProps(ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<AddTreatmentProps>> {
   const diseases = await fetch(`${urlPrefix}/api/disease/search?searchField=%`).then(async (res) => {
     if (res.status !== 200) {
       console.error(res);
