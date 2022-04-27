@@ -85,7 +85,7 @@ type AddTreatmentProps = {
   sideEffects: SideEffectType[]
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<AddTreatmentProps>> {
+export async function getStaticProps(ctx: GetStaticPropsContext): Promise<GetStaticPropsResult<AddTreatmentProps>> {
   const diseases = await fetch(`${urlPrefix}/api/disease/search?searchField=%`).then(async (res) => {
     if (res.status !== 200) {
       console.error(res);
