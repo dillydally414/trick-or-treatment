@@ -3,7 +3,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsCont
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import NavBar from '../components/NavBar';
-import { urlPrefix } from '../server/database';
+import { handleQuery, urlPrefix } from '../server/database';
 import { BodyContainer, Container, PageContainer } from '../styles/CommonStyles';
 import { DiseaseType, SideEffectType, TreatmentType } from '../types';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -86,43 +86,23 @@ type AddTreatmentProps = {
 }
 
 export async function getStaticProps(ctx: GetStaticPropsContext): Promise<GetStaticPropsResult<AddTreatmentProps>> {
-  console.log(urlPrefix)
-  const diseases = await fetch(`${urlPrefix}/api/disease/search?searchField=%`).then(async (res) => {
-    if (res.status !== 200) {
-      console.error(res);
-    } else {
-      return (await res.json())[0];
-    }
-  }).catch(err => console.error(err));
+  const diseases: any = await handleQuery({
+    query: "SELECT * FROM disease",
+  });
 
-  console.log(diseases);
+  const treatments: any = await handleQuery({
+    query: "SELECT * FROM medication",
+  });
 
-  const treatments = await fetch(`${urlPrefix}/api/treatment/search?searchField=%`).then(async (res) => {
-    if (res.status !== 200) {
-      console.error(res);
-    } else {
-      return (await res.json())[0];
-    }
-  }).catch(err => console.error(err));
-
-  console.log(treatments);
-
-
-  const sideEffects = await fetch(`${urlPrefix}/api/side-effect/search?searchField=%`).then(async (res) => {
-    if (res.status !== 200) {
-      console.error(res);
-    } else {
-      return (await res.json())[0];
-    }
-  }).catch(err => console.error(err));
-
-  console.log(sideEffects);
+  const sideEffects: any = await handleQuery({
+    query: "SELECT * FROM side_effect",
+  });
 
   return {
     props: {
-      diseases: diseases || [],
-      treatments: treatments || [],
-      sideEffects: sideEffects || []
+      diseases: diseases[0] || [],
+      treatments: treatments[0] || [],
+      sideEffects: sideEffects[0] || []
     }
   }
 }
