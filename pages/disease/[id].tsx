@@ -8,6 +8,7 @@ import { BottomHalf, Information, Subtitle, Title, LeftCol, TopRow } from '../..
 import Axios from 'axios';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+import { urlPrefix } from '../../server/database';
 
 type DiseaseDetailsProps = {
   name: string,
@@ -24,8 +25,7 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
   let medications: TreatmentType[] = []
 
   if (id) {
-    console.log(process.env.VERCEL_URL)
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/disease/info?diseaseId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/disease/info?diseaseId=${id}`).then(async (response) => {
       const disease: DiseaseType = (await response.json())[0][0]
       name = disease.name
       name = name.charAt(0).toUpperCase() + name.slice(1)
@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       diseaseClass = diseaseClass.charAt(0).toUpperCase() + diseaseClass.slice(1)
     });
 
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/disease/treatment-options?diseaseId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/disease/treatment-options?diseaseId=${id}`).then(async (response) => {
       medications = (await response.json())[0]
     })
   }

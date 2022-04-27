@@ -1,19 +1,10 @@
 import mysql from 'mysql2';
-import { config } from 'dotenv';
+import 'dotenv/config';
 import { NextApiResponse } from 'next';
-
-config();
-/*
-const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-}).promise();*/
 
 type QueryProps = {
   query: string
-  values: string | string[]
+  values: string | string[] | number[]
   res: NextApiResponse
 }
 
@@ -31,3 +22,5 @@ export const handleQuery = async (props: QueryProps) => {
   });
   await db.end();
 }
+
+export const urlPrefix = `http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}`;
