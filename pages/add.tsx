@@ -86,6 +86,7 @@ type AddTreatmentProps = {
 }
 
 export async function getStaticProps(ctx: GetStaticPropsContext): Promise<GetStaticPropsResult<AddTreatmentProps>> {
+  console.log(urlPrefix)
   const diseases = await fetch(`${urlPrefix}/api/disease/search?searchField=%`).then(async (res) => {
     if (res.status !== 200) {
       console.error(res);
