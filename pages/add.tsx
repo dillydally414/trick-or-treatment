@@ -86,23 +86,23 @@ type AddTreatmentProps = {
 }
 
 export async function getStaticProps(ctx: GetStaticPropsContext): Promise<GetStaticPropsResult<AddTreatmentProps>> {
-  const diseases: any = await handleQuery({
+  const diseases = await handleQuery({
     query: "SELECT * FROM disease",
-  });
+  }) as DiseaseType[];
 
-  const treatments: any = await handleQuery({
+  const treatments = await handleQuery({
     query: "SELECT * FROM medication",
-  });
+  }) as TreatmentType[];
 
-  const sideEffects: any = await handleQuery({
+  const sideEffects = await handleQuery({
     query: "SELECT * FROM side_effect",
-  });
+  }) as SideEffectType[];
 
   return {
     props: {
-      diseases: diseases[0] || [],
-      treatments: treatments[0] || [],
-      sideEffects: sideEffects[0] || []
+      diseases: diseases || [],
+      treatments: treatments || [],
+      sideEffects: sideEffects || []
     }
   }
 }
