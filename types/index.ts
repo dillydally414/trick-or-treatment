@@ -16,3 +16,8 @@ export type TradeName = {
   medication_id: number
   price: number
 }
+
+export type SideEffectType = {
+  side_effect_id: number
+  name: string
+}

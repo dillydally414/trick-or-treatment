@@ -9,6 +9,8 @@ import { Container, PageContainer, BodyContainer } from '../../styles/CommonStyl
 import { TopRow, LeftCol, Title, Subtitle, Information, SideEffects, BottomHalf } from '../../styles/DetailsStyles';
 import Axios from 'axios';
 import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
+import { urlPrefix } from '../../server/database';
+import { customIcons } from '../add';
 
 const RightCol = styled.div`
   dispaly: flex;
@@ -34,7 +36,8 @@ type TreatmentDetailsProps = {
   sideEffects: { name: string }[],
   method: string,
   brandNames: TradeName[],
-  relevantDiseases: DiseaseType[]
+  relevantDiseases: DiseaseType[],
+  averageRating: number
 }
 
 export async function getServerSideProps({ params }: GetServerSidePropsContext<{ id: string }>): Promise<GetServerSidePropsResult<TreatmentDetailsProps>> {
@@ -44,9 +47,10 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
   let method = "Method"
   let brandNames: TradeName[] = []
   let relevantDiseases: DiseaseType[] = []
+  let averageRating = -1
 
   if (id) {
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/treatment/info?medicationId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/treatment/info?medicationId=${id}`).then(async (response) => {
       const medication = (await response.json())[0][0]
       name = medication.name
       name = name.charAt(0).toUpperCase() + name.slice(1)
@@ -55,16 +59,20 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       method = method.charAt(0).toUpperCase() + method.slice(1)
     })
 
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/treatment/side-effects?medicationId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/treatment/side-effects?medicationId=${id}`).then(async (response) => {
       sideEffects = (await response.json())[0]
     })
 
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/treatment/brand-names?medicationId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/treatment/brand-names?medicationId=${id}`).then(async (response) => {
       brandNames = (await response.json())[0]
     })
 
-    await fetch(`http${process.env.NODE_ENV === "development" ? '' : 's'}://${process.env.VERCEL_URL}/api/treatment/relevant-diseases?medicationId=${id}`).then(async (response) => {
+    await fetch(`${urlPrefix}/api/treatment/relevant-diseases?medicationId=${id}`).then(async (response) => {
       relevantDiseases = (await response.json())[0]
+    })
+
+    await fetch(`${urlPrefix}/api/treatment/rating?medicationId=${id}`).then(async (response) => {
+      averageRating = (await response.json())[0][0].avg_rating;
     })
   }
 
@@ -74,12 +82,13 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       sideEffects: sideEffects,
       method: method,
       brandNames: brandNames,
-      relevantDiseases: relevantDiseases
+      relevantDiseases: relevantDiseases,
+      averageRating: averageRating
     }
   }
 }
 
-export default function TreatmentDetails({ name, sideEffects, method, brandNames, relevantDiseases }: TreatmentDetailsProps) {
+export default function TreatmentDetails({ name, sideEffects, method, brandNames, relevantDiseases, averageRating }: TreatmentDetailsProps) {
 
   return (
     <Container>
@@ -91,6 +100,19 @@ export default function TreatmentDetails({ name, sideEffects, method, brandNames
               <Title>{name}</Title>
               <Subtitle>Method of Ingestion: {method}</Subtitle>
             </LeftCol>
+            {averageRating <= 0.5 ? null :
+              <RightCol style={{ marginRight: "1rem" }}>
+                <Subtitle>
+                  Rating:
+                </Subtitle>
+                <SideEffects style={{ textAlign: "center", fontSize: "3rem", margin: 0 }}>
+                  {customIcons[Math.round(averageRating)].icon}
+                </SideEffects>
+                <SideEffects style={{ marginTop: 0 }}>
+                  {averageRating.toFixed(1)}/5.0
+                </SideEffects>
+              </RightCol>
+            }
             <RightCol>
               <Subtitle>
                 Side Effects:
