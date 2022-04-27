@@ -94,6 +94,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext): Promis
     }
   }).catch(err => console.error(err));
 
+  console.log(diseases);
+
   const treatments = await fetch(`${urlPrefix}/api/treatment/search?searchField=%`).then(async (res) => {
     if (res.status !== 200) {
       console.error(res);
@@ -102,6 +104,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext): Promis
     }
   }).catch(err => console.error(err));
 
+  console.log(treatments);
+
+
   const sideEffects = await fetch(`${urlPrefix}/api/side-effect/search?searchField=%`).then(async (res) => {
     if (res.status !== 200) {
       console.error(res);
@@ -109,6 +114,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext): Promis
       return (await res.json())[0];
     }
   }).catch(err => console.error(err));
+
+  console.log(sideEffects);
 
   return {
     props: {
