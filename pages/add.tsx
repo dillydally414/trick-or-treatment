@@ -46,7 +46,7 @@ const RatingContainer = styled.div`
   }
 `;
 
-const customIcons: {
+export const customIcons: {
   [index: number]: {
     icon: React.ReactElement;
     label: string;

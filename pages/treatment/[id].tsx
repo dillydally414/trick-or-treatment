@@ -10,6 +10,7 @@ import { TopRow, LeftCol, Title, Subtitle, Information, SideEffects, BottomHalf 
 import Axios from 'axios';
 import { GetServerSidePropsResult, GetServerSidePropsContext } from 'next';
 import { urlPrefix } from '../../server/database';
+import { customIcons } from '../add';
 
 const RightCol = styled.div`
   dispaly: flex;
@@ -35,7 +36,8 @@ type TreatmentDetailsProps = {
   sideEffects: { name: string }[],
   method: string,
   brandNames: TradeName[],
-  relevantDiseases: DiseaseType[]
+  relevantDiseases: DiseaseType[],
+  averageRating: number
 }
 
 export async function getServerSideProps({ params }: GetServerSidePropsContext<{ id: string }>): Promise<GetServerSidePropsResult<TreatmentDetailsProps>> {
@@ -45,6 +47,7 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
   let method = "Method"
   let brandNames: TradeName[] = []
   let relevantDiseases: DiseaseType[] = []
+  let averageRating = -1
 
   if (id) {
     await fetch(`${urlPrefix}/api/treatment/info?medicationId=${id}`).then(async (response) => {
@@ -67,6 +70,10 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
     await fetch(`${urlPrefix}/api/treatment/relevant-diseases?medicationId=${id}`).then(async (response) => {
       relevantDiseases = (await response.json())[0]
     })
+
+    await fetch(`${urlPrefix}/api/treatment/rating?medicationId=${id}`).then(async (response) => {
+      averageRating = (await response.json())[0][0].avg_rating;
+    })
   }
 
   return {
@@ -75,12 +82,13 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext<{
       sideEffects: sideEffects,
       method: method,
       brandNames: brandNames,
-      relevantDiseases: relevantDiseases
+      relevantDiseases: relevantDiseases,
+      averageRating: averageRating
     }
   }
 }
 
-export default function TreatmentDetails({ name, sideEffects, method, brandNames, relevantDiseases }: TreatmentDetailsProps) {
+export default function TreatmentDetails({ name, sideEffects, method, brandNames, relevantDiseases, averageRating }: TreatmentDetailsProps) {
 
   return (
     <Container>
@@ -92,6 +100,19 @@ export default function TreatmentDetails({ name, sideEffects, method, brandNames
               <Title>{name}</Title>
               <Subtitle>Method of Ingestion: {method}</Subtitle>
             </LeftCol>
+            {averageRating <= 0.5 ? null :
+              <RightCol style={{ marginRight: "1rem" }}>
+                <Subtitle>
+                  Rating:
+                </Subtitle>
+                <SideEffects style={{ textAlign: "center", fontSize: "3rem", margin: 0 }}>
+                  {customIcons[Math.round(averageRating)].icon}
+                </SideEffects>
+                <SideEffects style={{ marginTop: 0 }}>
+                  {averageRating.toFixed(1)}/5.0
+                </SideEffects>
+              </RightCol>
+            }
             <RightCol>
               <Subtitle>
                 Side Effects:
