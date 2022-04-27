@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 import Color from '../styles/colors';
 import { useRouter } from 'next/router';
+import Font from '../styles/fonts';
 
 const SearchHeader = styled.h1`
   color: black;
@@ -44,6 +45,20 @@ const RatingContainer = styled.div`
   label {
     color: ${Color.BLACK} !important;
   }
+`;
+
+const Submit = styled.button`
+  align-self: center;
+  background-color: ${Color.BLACK};
+  border-color: ${Color.DARK_GRAY};
+  border-radius: 4px;
+  border-style: solid;
+  color: ${Color.ORANGE};
+  cursor: pointer;
+  font-family: ${Font.MAIN};
+  font-size: 2rem;
+  padding: 1rem;
+  width: 50%;
 `;
 
 export const customIcons: {
@@ -230,9 +245,9 @@ export default function Add(props: AddTreatmentProps) {
           </Row>
           <Row>
             {isComplete ?
-              <button onClick={() => addTreatment()}>
+              <Submit onClick={() => addTreatment()}>
                 Submit
-              </button>
+              </Submit>
               : null
             }
           </Row>
